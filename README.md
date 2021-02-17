@@ -1,1 +1,0 @@
-# arquitectura-hexagonal-java
