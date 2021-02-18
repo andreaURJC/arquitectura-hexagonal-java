@@ -23,8 +23,16 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public FullProductDto save(FullProductDto fullProductDto) {
-        ProductEntity productSavedEntity = this.productJpaRepository.save(toEntity(fullProductDto));
-        return toFullProductDto(productSavedEntity);
+        ProductEntity productEntity = toEntity(fullProductDto);
+        Optional<ProductEntity> maybeExists = this.productJpaRepository.findProductEntityByName(productEntity.getName());
+
+        if (maybeExists.isPresent()) {
+            ProductEntity product = maybeExists.get();
+            product.setQuantity(fullProductDto.getQuantity() + product.getQuantity());
+            return toFullProductDto(this.productJpaRepository.save(product));
+        } else {
+            return toFullProductDto(this.productJpaRepository.save(productEntity));
+        }
     }
 
     @Override
@@ -42,7 +50,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
     @Override
     public Optional<FullProductDto> delete(int id) {
         Optional<ProductEntity> maybeProduct = this.productJpaRepository.findById(id);
-        if(maybeProduct.isPresent()) {
+        if (maybeProduct.isPresent()) {
             this.productJpaRepository.delete(maybeProduct.get());
         }
 
