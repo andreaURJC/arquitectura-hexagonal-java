@@ -38,8 +38,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable  int id) throws ProductNotFoundException {
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable int id) throws ProductNotFoundException {
         FullProductDto product = this.productService.findById(id).orElseThrow(ProductNotFoundException::new);
+        return new ResponseEntity<>(toProductResponseDto(product), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> deleteProductById(@PathVariable int id) throws ProductNotFoundException {
+        FullProductDto product = this.productService.delete(id).orElseThrow(ProductNotFoundException::new);
         return new ResponseEntity<>(toProductResponseDto(product), HttpStatus.OK);
     }
 

@@ -34,6 +34,11 @@ public class ProductUseCaseImpl implements ProductUseCase {
         return this.productRepository.findById(id);
     }
 
+    @Override
+    public Optional<FullProductDto> delete(int id) {
+        return this.productRepository.delete(id);
+    }
+
     private FullProductDto toFullBookDto(ProductDto productDto) {
        return mapper.map(productDto, FullProductDto.class);
     }

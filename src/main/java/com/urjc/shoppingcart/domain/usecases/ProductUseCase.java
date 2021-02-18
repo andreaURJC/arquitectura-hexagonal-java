@@ -10,4 +10,5 @@ public interface ProductUseCase {
     FullProductDto save(ProductDto productRequest);
     List<FullProductDto> getAllProducts();
     Optional<FullProductDto> findById(int id);
+    Optional<FullProductDto> delete(int id);
 }

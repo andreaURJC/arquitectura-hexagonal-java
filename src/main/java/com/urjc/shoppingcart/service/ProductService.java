@@ -35,4 +35,8 @@ public class ProductService {
     private ProductDto toProductDto(ProductRequestDto productRequest) {
         return mapper.map(productRequest, ProductDto.class);
     }
+
+    public Optional<FullProductDto> delete(int id) {
+        return this.productUseCase.delete(id);
+    }
 }

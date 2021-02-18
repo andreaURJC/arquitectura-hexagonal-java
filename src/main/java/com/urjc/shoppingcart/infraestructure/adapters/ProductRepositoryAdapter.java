@@ -39,6 +39,16 @@ public class ProductRepositoryAdapter implements ProductRepository {
         return maybeProduct.map(this::toFullProductDto);
     }
 
+    @Override
+    public Optional<FullProductDto> delete(int id) {
+        Optional<ProductEntity> maybeProduct = this.productJpaRepository.findById(id);
+        if(maybeProduct.isPresent()) {
+            this.productJpaRepository.delete(maybeProduct.get());
+        }
+
+        return maybeProduct.map(this::toFullProductDto);
+    }
+
     private ProductEntity toEntity(FullProductDto fullProductDto) {
         return mapper.map(fullProductDto, ProductEntity.class);
     }
