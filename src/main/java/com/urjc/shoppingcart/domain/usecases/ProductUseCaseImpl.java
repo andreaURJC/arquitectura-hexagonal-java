@@ -1,10 +1,11 @@
 package com.urjc.shoppingcart.domain.usecases;
 
-import com.urjc.shoppingcart.domain.dto.NewProductDto;
-import com.urjc.shoppingcart.domain.dto.ProductRequestDto;
-import com.urjc.shoppingcart.domain.dto.ProductResponseDto;
+import com.urjc.shoppingcart.domain.dto.FullProductDto;
+import com.urjc.shoppingcart.domain.dto.ProductDto;
 import com.urjc.shoppingcart.domain.repository.ProductRepository;
 import org.dozer.DozerBeanMapper;
+
+import java.util.List;
 
 public class ProductUseCaseImpl implements ProductUseCase {
 
@@ -17,8 +18,18 @@ public class ProductUseCaseImpl implements ProductUseCase {
     }
 
     @Override
-    public ProductResponseDto save(ProductRequestDto productRequest) {
-        NewProductDto product = mapper.map(productRequest, NewProductDto.class);
-        return mapper.map(this.productRepository.save(product), ProductResponseDto.class);
+    public FullProductDto save(ProductDto productDto) {
+        FullProductDto product = toFullBookDto(productDto);
+        return this.productRepository.save(product);
     }
+
+    @Override
+    public List<FullProductDto> getAllProducts() {
+        return this.productRepository.findAll();
+    }
+
+    private FullProductDto toFullBookDto(ProductDto productDto) {
+       return mapper.map(productDto, FullProductDto.class);
+    }
+
 }

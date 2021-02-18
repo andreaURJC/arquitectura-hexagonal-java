@@ -1,13 +1,13 @@
-package com.urjc.shoppingcart.application.controller.model;
+package com.urjc.shoppingcart.controller;
 
 public class ProductRequestDto {
     private String name;
-    private String descripcion;
+    private String description;
     private Integer quantity;
 
-    public ProductRequestDto(String name, String descripcion, int quantity) {
+    public ProductRequestDto(String name, String description, int quantity) {
         this.name = name;
-        this.descripcion = descripcion;
+        this.description = description;
         this.quantity = quantity;
     }
 
@@ -21,12 +21,12 @@ public class ProductRequestDto {
         this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getQuantity() {

@@ -1,17 +1,17 @@
 package com.urjc.shoppingcart.domain.dto;
 
-public class NewProductDto {
+public class ProductDto {
     private String name;
-    private String descripcion;
+    private String description;
     private Integer quantity;
 
-    public NewProductDto(String name, String descripcion, int quantity) {
+    public ProductDto(String name, String description, int quantity) {
         this.name = name;
-        this.descripcion = descripcion;
+        this.description = description;
         this.quantity = quantity;
     }
 
-    public NewProductDto() {}
+    public ProductDto() {}
 
     public String getName() {
         return name;
@@ -21,12 +21,12 @@ public class NewProductDto {
         this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Integer getQuantity() {

@@ -2,12 +2,12 @@ package com.urjc.shoppingcart.domain.model;
 
 public class Product {
     private String name;
-    private String descripcion;
+    private String description;
     private Integer quantity;
 
-    public Product(String name, String descripcion, int quantity) {
+    public Product(String name, String description, int quantity) {
         this.name = name;
-        this.descripcion = descripcion;
+        this.description = description;
         this.quantity = quantity;
     }
 
