@@ -6,7 +6,7 @@ import com.urjc.shoppingcart.infraestructure.adapters.ProductRepositoryAdapter;
 import org.springframework.context.annotation.Bean;
 
 @org.springframework.context.annotation.Configuration
-public class Configuration {
+public class AppConfiguration {
     @Bean
     public ProductUseCase productUseCase(ProductRepositoryAdapter productRepositoryAdapter) {
         return new ProductUseCaseImpl(productRepositoryAdapter);

@@ -1,5 +1,6 @@
 package com.urjc.shoppingcart.controller;
 
+import com.urjc.shoppingcart.controller.dto.ProductResponseDto;
 import com.urjc.shoppingcart.controller.exception.ProductNotFoundException;
 import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.dto.ProductRequestDto;
@@ -10,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

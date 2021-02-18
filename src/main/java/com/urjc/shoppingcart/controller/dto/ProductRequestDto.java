@@ -1,28 +1,17 @@
-package com.urjc.shoppingcart.controller;
+package com.urjc.shoppingcart.controller.dto;
 
-public class ProductResponseDto {
-    private int id;
+public class ProductRequestDto {
     private String name;
     private String description;
     private Integer quantity;
 
-    public ProductResponseDto(int id, String name, String description, int quantity) {
-        this.id = id;
+    public ProductRequestDto(String name, String description, int quantity) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
     }
 
-    public ProductResponseDto() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public ProductRequestDto() {}
 
     public String getName() {
         return name;
