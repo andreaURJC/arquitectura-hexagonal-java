@@ -1,7 +1,8 @@
 package com.urjc.shoppingcart.domain.repository;
 
-import com.urjc.shoppingcart.domain.DTO.NewProductDto;
+import com.urjc.shoppingcart.domain.dto.NewProductDto;
+import com.urjc.shoppingcart.domain.dto.ProductSavedDto;
 
 public interface ProductRepository {
-    void save(NewProductDto productRequestDto);
+    ProductSavedDto save(NewProductDto productRequestDto);
 }

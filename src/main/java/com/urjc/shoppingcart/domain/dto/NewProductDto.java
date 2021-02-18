@@ -1,4 +1,4 @@
-package com.urjc.shoppingcart.domain.DTO;
+package com.urjc.shoppingcart.domain.dto;
 
 public class NewProductDto {
     private String name;
