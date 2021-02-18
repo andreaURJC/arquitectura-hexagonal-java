@@ -8,6 +8,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,6 +31,12 @@ public class ProductRepositoryAdapter implements ProductRepository {
     public List<FullProductDto> findAll() {
         List<ProductEntity> maybeProducts = this.productJpaRepository.findAll();
         return maybeProducts.stream().map(this::toFullProductDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<FullProductDto> findById(int id) {
+        Optional<ProductEntity> maybeProduct = this.productJpaRepository.findById(id);
+        return maybeProduct.map(this::toFullProductDto);
     }
 
     private ProductEntity toEntity(FullProductDto fullProductDto) {

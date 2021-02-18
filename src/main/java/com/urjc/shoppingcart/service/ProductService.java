@@ -8,6 +8,7 @@ import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -25,6 +26,10 @@ public class ProductService {
 
     public List<FullProductDto> getAllProducts() {
         return this.productUseCase.getAllProducts();
+    }
+
+    public Optional<FullProductDto> findById(int id) {
+        return this.productUseCase.findById(id);
     }
 
     private ProductDto toProductDto(ProductRequestDto productRequest) {

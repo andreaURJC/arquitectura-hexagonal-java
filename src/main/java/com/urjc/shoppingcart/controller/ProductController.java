@@ -1,12 +1,16 @@
 package com.urjc.shoppingcart.controller;
 
+import com.urjc.shoppingcart.controller.exception.ProductNotFoundException;
 import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.dto.ProductRequestDto;
 import com.urjc.shoppingcart.service.ProductService;
 import org.dozer.DozerBeanMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,9 +32,15 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<ProductResponseDto> getAllProducts() {
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
         List<FullProductDto> allProducts = this.productService.getAllProducts();
-        return allProducts.stream().map(this::toProductResponseDto).collect(Collectors.toList());
+        return new ResponseEntity<>(allProducts.stream().map(this::toProductResponseDto).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable  int id) throws ProductNotFoundException {
+        FullProductDto product = this.productService.findById(id).orElseThrow(ProductNotFoundException::new);
+        return new ResponseEntity<>(toProductResponseDto(product), HttpStatus.OK);
     }
 
     public ProductResponseDto toProductResponseDto(FullProductDto fullProductDto) {

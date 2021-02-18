@@ -6,6 +6,7 @@ import com.urjc.shoppingcart.domain.repository.ProductRepository;
 import org.dozer.DozerBeanMapper;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ProductUseCaseImpl implements ProductUseCase {
 
@@ -26,6 +27,11 @@ public class ProductUseCaseImpl implements ProductUseCase {
     @Override
     public List<FullProductDto> getAllProducts() {
         return this.productRepository.findAll();
+    }
+
+    @Override
+    public Optional<FullProductDto> findById(int id) {
+        return this.productRepository.findById(id);
     }
 
     private FullProductDto toFullBookDto(ProductDto productDto) {
