@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class ProductRepositoryAdapter implements ProductRepository {
 
     private ProductJpaRepository productJpaRepository;
-    private DozerBeanMapper mapper = new DozerBeanMapper();
 
     ProductRepositoryAdapter(ProductJpaRepository productJpaRepository) {
         this.productJpaRepository = productJpaRepository;
@@ -49,19 +48,17 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public Optional<FullProductDto> delete(int id) {
-        Optional<ProductEntity> maybeProduct = this.productJpaRepository.findById(id);
-        if (maybeProduct.isPresent()) {
-            this.productJpaRepository.delete(maybeProduct.get());
-        }
+        Optional<ProductEntity> product = this.productJpaRepository.findById(id);
+        product.ifPresent(entity -> this.productJpaRepository.delete(entity));
 
-        return maybeProduct.map(this::toFullProductDto);
+        return product.map(this::toFullProductDto);
     }
 
     private ProductEntity toEntity(FullProductDto fullProductDto) {
-        return mapper.map(fullProductDto, ProductEntity.class);
+        return new ProductEntity(fullProductDto.getName(), fullProductDto.getDescription(), fullProductDto.getQuantity());
     }
 
     private FullProductDto toFullProductDto(ProductEntity entity) {
-        return mapper.map(entity, FullProductDto.class);
+        return new FullProductDto(entity.getId(), entity.getName(), entity.getDescription(), entity.getQuantity());
     }
 }
