@@ -37,7 +37,7 @@ public class ShoppingCartController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ShoppingCartResponseDto>  deleteShoppingCart(@PathVariable int id) throws ShoppingCartNotFound {
+    public ResponseEntity<ShoppingCartResponseDto> deleteShoppingCart(@PathVariable int id) throws ShoppingCartNotFound {
         FullShoppingCartDto shoppingCart = this.shoppingCartService.delete(id).orElseThrow(ShoppingCartNotFound::new);
         return new ResponseEntity<>(toShoppingCartResponseDto(shoppingCart), HttpStatus.OK);
     }
@@ -48,6 +48,17 @@ public class ShoppingCartController {
         return new ResponseEntity<>(toShoppingCartResponseDto(shoppingCart), HttpStatus.OK);
     }
 
+    @PostMapping("/{shoppingCartId}/product/{productId}/quantity/{quantity}")
+    public ResponseEntity<ShoppingCartResponseDto> saveProduct(@PathVariable int shoppingCartId, @PathVariable int productId, @PathVariable int quantity) throws ShoppingCartNotFound {
+        FullShoppingCartDto fullShoppingCartDto = this.shoppingCartService.saveProduct(productId, shoppingCartId, quantity).orElseThrow(ShoppingCartNotFound::new);
+        return new ResponseEntity<>(toShoppingCartResponseDto(fullShoppingCartDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{shoppingCartId}/product/{productId}")
+    public ResponseEntity<ShoppingCartResponseDto> saveProduct(@PathVariable int shoppingCartId, @PathVariable int productId) throws ShoppingCartNotFound {
+        FullShoppingCartDto fullShoppingCartDto = this.shoppingCartService.deleteProduct(productId, shoppingCartId).orElseThrow(ShoppingCartNotFound::new);
+        return new ResponseEntity<>(toShoppingCartResponseDto(fullShoppingCartDto), HttpStatus.OK);
+    }
 
     private ShoppingCartResponseDto toShoppingCartResponseDto(FullShoppingCartDto fullShoppingCartDto) {
         return new ShoppingCartResponseDto(fullShoppingCartDto.getId(), fullShoppingCartDto.getProducts(), fullShoppingCartDto.getStatus());

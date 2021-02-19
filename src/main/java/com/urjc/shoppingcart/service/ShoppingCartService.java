@@ -32,7 +32,11 @@ public class ShoppingCartService {
         return this.shoppingCartUseCase.findById(id);
     }
 
-    private ShoppingCartDto toShoppingCartDto(ShoppingCartRequestDto shoppingCartRequestDto) {
-        return new ShoppingCartDto(shoppingCartRequestDto.getProducts(), shoppingCartRequestDto.getStatus());
+    public Optional<FullShoppingCartDto> saveProduct(int productId, int shoppingCartId, int quantity) {
+        return this.shoppingCartUseCase.saveProduct(productId, shoppingCartId,quantity);
+    }
+
+    public Optional<FullShoppingCartDto> deleteProduct(int productId, int shoppingCartId) {
+        return this.shoppingCartUseCase.deleteProduct(productId,shoppingCartId);
     }
 }

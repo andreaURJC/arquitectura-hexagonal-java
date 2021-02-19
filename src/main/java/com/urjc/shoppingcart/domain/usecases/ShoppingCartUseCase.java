@@ -9,6 +9,6 @@ public interface ShoppingCartUseCase {
     Optional<FullShoppingCartDto> delete(int id);
     Optional<FullShoppingCartDto> finish(int id);
     Optional<FullShoppingCartDto> findById(int id);
-    FullShoppingCartDto saveProduct(int productId, int shoppingCartId, int quantity);
-    FullShoppingCartDto deleteProduct(int productId, int shoppingCartId);
+    Optional<FullShoppingCartDto> saveProduct(int productId, int shoppingCartId, int quantity);
+    Optional<FullShoppingCartDto> deleteProduct(int productId, int shoppingCartId);
 }

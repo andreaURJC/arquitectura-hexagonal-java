@@ -28,6 +28,11 @@ public class ShoppingCartRepositoryAdapter implements ShoppingCartRepository {
     }
 
     @Override
+    public FullShoppingCartDto save(FullShoppingCartDto shoppingCartDto) {
+        return toFullShoppingCartDto(this.shoppingCartJpaRepository.save(new ShoppingCartEntity(shoppingCartDto.getId(),toEntities(shoppingCartDto.getProducts()), CartStatus.INPROGRESS)));
+    }
+
+    @Override
     public FullShoppingCartDto delete(FullShoppingCartDto fullShoppingCartDto) {
         this.shoppingCartJpaRepository.delete(toEntity(fullShoppingCartDto));
         return fullShoppingCartDto;

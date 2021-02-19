@@ -11,7 +11,10 @@ public class ShoppingCartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "shopping_cart_product",
+            joinColumns = {@JoinColumn(name = "shopping_cart_entity_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "product_entity_id", nullable = false, updatable = false)})
     private List<ProductEntity> products;
     private CartStatus status;
 
