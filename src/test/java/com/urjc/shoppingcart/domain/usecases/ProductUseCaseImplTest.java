@@ -46,7 +46,7 @@ class ProductUseCaseImplTest {
     void givenProductDto_whenDelete_thenReturnFullSavedProductWithTheSameData() {
         Optional<FullProductDto> fullProduct = Optional.of(toFullBookDto(productDto));
 
-        Mockito.when(productRepository.delete(1)).thenReturn(fullProduct);
+        Mockito.when(productRepository.delete(toFullBookDto(productDto))).thenReturn(toFullBookDto(productDto));
         Optional<FullProductDto> fullProductDtoDeleted = productUseCase.delete(1);
 
         Assertions.assertEquals(fullProductDtoDeleted.get().getName(), fullProduct.get().getName());

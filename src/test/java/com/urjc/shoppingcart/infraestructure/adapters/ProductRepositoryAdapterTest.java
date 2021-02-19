@@ -54,23 +54,14 @@ class ProductRepositoryAdapterTest {
 
     @Test
     public void givenExistingIdProduct_whenDeleted_ThenShouldReturnDeletedFullProduct() {
+        FullProductDto newFullProductDto = new FullProductDto("name", "description", 1);
         ProductEntity productEntity = new ProductEntity("name", "description", 1);
 
-        when(this.productJpaRepository.findById(any())).thenReturn(Optional.of(productEntity));
         doNothing().when(this.productJpaRepository).delete(any());
 
-        Assertions.assertTrue(this.productRepositoryAdapter.delete(1).isPresent());
-        Assertions.assertEquals(this.productRepositoryAdapter.delete(1).get().getName(), toFullProductDto(productEntity).getName());
-        Assertions.assertEquals(this.productRepositoryAdapter.delete(1).get().getDescription(), toFullProductDto(productEntity).getDescription());
-        Assertions.assertEquals(this.productRepositoryAdapter.delete(1).get().getQuantity(), toFullProductDto(productEntity).getQuantity());
-    }
-
-    @Test
-    public void givenNotExistingIdProduct_whenDeleted_ThenShouldReturnEmptyOptional() {
-        when(this.productJpaRepository.findById(any())).thenReturn(Optional.empty());
-        doNothing().when(this.productJpaRepository).delete(any());
-
-        Assertions.assertFalse(this.productRepositoryAdapter.delete(1).isPresent());
+        Assertions.assertEquals(this.productRepositoryAdapter.delete(newFullProductDto).getName(), toFullProductDto(productEntity).getName());
+        Assertions.assertEquals(this.productRepositoryAdapter.delete(newFullProductDto).getDescription(), toFullProductDto(productEntity).getDescription());
+        Assertions.assertEquals(this.productRepositoryAdapter.delete(newFullProductDto).getQuantity(), toFullProductDto(productEntity).getQuantity());
     }
 
     private FullProductDto toFullProductDto(ProductEntity entity) {

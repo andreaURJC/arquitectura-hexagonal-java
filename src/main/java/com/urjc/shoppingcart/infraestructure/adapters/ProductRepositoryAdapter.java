@@ -4,7 +4,6 @@ import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.repository.ProductRepository;
 import com.urjc.shoppingcart.infraestructure.model.ProductEntity;
 import com.urjc.shoppingcart.infraestructure.repository.ProductJpaRepository;
-import org.dozer.DozerBeanMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,16 +21,7 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public FullProductDto save(FullProductDto fullProductDto) {
-        ProductEntity productEntity = toEntity(fullProductDto);
-        Optional<ProductEntity> existingProduct = this.productJpaRepository.findProductEntityByName(productEntity.getName());
-
-        if (existingProduct.isPresent()) {
-            ProductEntity product = existingProduct.get();
-            product.setQuantity(fullProductDto.getQuantity() + product.getQuantity());
-            return toFullProductDto(this.productJpaRepository.save(product));
-        } else {
-            return toFullProductDto(this.productJpaRepository.save(productEntity));
-        }
+        return toFullProductDto(this.productJpaRepository.save(toEntity(fullProductDto)));
     }
 
     @Override
@@ -47,16 +37,21 @@ public class ProductRepositoryAdapter implements ProductRepository {
     }
 
     @Override
-    public Optional<FullProductDto> delete(int id) {
-        Optional<ProductEntity> product = this.productJpaRepository.findById(id);
-        product.ifPresent(entity -> this.productJpaRepository.delete(entity));
+    public FullProductDto delete(FullProductDto productDto) {
+        this.productJpaRepository.delete(toEntity(productDto));
+        return productDto;
+    }
 
+    @Override
+    public Optional<FullProductDto> findProductEntityByName(String name) {
+        Optional<ProductEntity> product = this.productJpaRepository.findProductEntityByName(name);
         return product.map(this::toFullProductDto);
     }
 
     private ProductEntity toEntity(FullProductDto fullProductDto) {
-        return new ProductEntity(fullProductDto.getName(), fullProductDto.getDescription(), fullProductDto.getQuantity());
+        return new ProductEntity(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription(), fullProductDto.getQuantity());
     }
+
 
     private FullProductDto toFullProductDto(ProductEntity entity) {
         return new FullProductDto(entity.getId(), entity.getName(), entity.getDescription(), entity.getQuantity());
