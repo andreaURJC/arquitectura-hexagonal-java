@@ -14,6 +14,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @RunWith(MockitoJUnitRunner.class)
 class ProductUseCaseImplTest {
     @Mock
@@ -21,39 +24,59 @@ class ProductUseCaseImplTest {
 
     private ProductUseCase productUseCase;
 
-    ProductDto productDto;
-
     @BeforeEach
     public void beforeEach() {
         MockitoAnnotations.openMocks(this);
         this.productUseCase = new ProductUseCaseImpl(productRepository);
-        this.productDto = new ProductDto("name", "description", 1);
     }
 
     @Test
-    void givenProductDto_whenSaved_thenReturnFullSavedProductWithTheSameData() {
-        ProductDto productDto = new ProductDto("name", "description", 1);
-        FullProductDto fullProduct = toFullBookDto(productDto);
+    void givenExistingProductDto_whenSaved_thenReturnFullSavedProductWithSumOfQuantities() {
+        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", 1);
+        ProductDto newProductDto = new ProductDto("name", "description", 1);
+        int finalQuantity = fullProductDto.getQuantity() + newProductDto.getQuantity();
+        FullProductDto productEntitySaved = new FullProductDto(1, "name", "description", finalQuantity);
 
-        Mockito.when(productRepository.save(Mockito.any())).thenReturn(fullProduct);
-        FullProductDto fullProductDtoSaved = productUseCase.save(productDto);
+        when(this.productRepository.findProductEntityByName(any())).thenReturn(Optional.of(fullProductDto));
+        when(this.productRepository.save(any())).thenReturn(productEntitySaved);
 
-        Assertions.assertEquals(fullProductDtoSaved.getName(), fullProduct.getName());
-        Assertions.assertEquals(fullProductDtoSaved.getDescription(), fullProduct.getDescription());
+        FullProductDto response = this.productUseCase.save(newProductDto);
+        Assertions.assertEquals(response.getQuantity(), finalQuantity);
     }
 
     @Test
-    void givenProductDto_whenDelete_thenReturnFullSavedProductWithTheSameData() {
-        Optional<FullProductDto> fullProduct = Optional.of(toFullBookDto(productDto));
+    void givenNewProductDto_whenSaved_thenReturnFullSavedProductWithTheSameData() {
+        ProductDto newProductDto = new ProductDto("name", "description", 1);
+        FullProductDto productEntitySaved = new FullProductDto(1, "name", "description", 1);
 
-        Mockito.when(productRepository.delete(1)).thenReturn(fullProduct);
-        Optional<FullProductDto> fullProductDtoDeleted = productUseCase.delete(1);
+        when(this.productRepository.findProductEntityByName(any())).thenReturn(Optional.empty());
+        when(this.productRepository.save(any())).thenReturn(productEntitySaved);
 
-        Assertions.assertEquals(fullProductDtoDeleted.get().getName(), fullProduct.get().getName());
-        Assertions.assertEquals(fullProductDtoDeleted.get().getDescription(), fullProduct.get().getDescription());
+        Assertions.assertEquals(this.productUseCase.save(newProductDto).getQuantity(), newProductDto.getQuantity());
     }
 
-    private FullProductDto toFullBookDto(ProductDto productDto) {
-        return new FullProductDto(productDto.getName(), productDto.getDescription(), productDto.getQuantity());
+    @Test
+    void givenProductDto_whenDelete_thenReturnFullProduct() {
+        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", 1);
+
+        Mockito.when(productRepository.findById(1)).thenReturn(Optional.of(fullProductDto));
+        Mockito.when(productRepository.delete(any())).thenReturn(fullProductDto);
+        FullProductDto fullProductDtoDeleted = productUseCase.delete(1).get();
+
+        Assertions.assertEquals(fullProductDtoDeleted.getName(), fullProductDto.getName());
+        Assertions.assertEquals(fullProductDtoDeleted.getDescription(), fullProductDto.getDescription());
+    }
+
+    @Test
+    void givenMultipleQuantityProductDto_whenDelete_thenReturnFullProductQuantityMinusOne() {
+        int quantity = 2;
+        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", quantity);
+
+        Mockito.when(productRepository.findById(1)).thenReturn(Optional.of(fullProductDto));
+        Mockito.when(productRepository.save(any())).thenReturn(fullProductDto);
+        FullProductDto fullProductDtoDeleted = productUseCase.delete(1).get();
+
+        Assertions.assertEquals(fullProductDto.getName(), fullProductDtoDeleted.getName());
+        Assertions.assertEquals(quantity - 1, fullProductDtoDeleted.getQuantity());
     }
 }
