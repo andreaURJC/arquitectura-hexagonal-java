@@ -36,14 +36,14 @@ public class ProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public List<FullProductDto> findAll() {
-        List<ProductEntity> maybeProducts = this.productJpaRepository.findAll();
-        return maybeProducts.stream().map(this::toFullProductDto).collect(Collectors.toList());
+        List<ProductEntity> products = this.productJpaRepository.findAll();
+        return products.stream().map(this::toFullProductDto).collect(Collectors.toList());
     }
 
     @Override
     public Optional<FullProductDto> findById(int id) {
-        Optional<ProductEntity> maybeProduct = this.productJpaRepository.findById(id);
-        return maybeProduct.map(this::toFullProductDto);
+        Optional<ProductEntity> product = this.productJpaRepository.findById(id);
+        return product.map(this::toFullProductDto);
     }
 
     @Override
