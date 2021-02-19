@@ -13,6 +13,12 @@ public class FullProductDto {
         this.quantity = quantity;
     }
 
+    public FullProductDto(String name, String description, int quantity) {
+        this.name = name;
+        this.description = description;
+        this.quantity = quantity;
+    }
+
     public FullProductDto(){}
 
     public int getId() {

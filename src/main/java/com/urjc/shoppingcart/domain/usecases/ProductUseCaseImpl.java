@@ -3,7 +3,6 @@ package com.urjc.shoppingcart.domain.usecases;
 import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.dto.ProductDto;
 import com.urjc.shoppingcart.domain.repository.ProductRepository;
-import org.dozer.DozerBeanMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +10,6 @@ import java.util.Optional;
 public class ProductUseCaseImpl implements ProductUseCase {
 
     private final ProductRepository productRepository;
-
-    private final DozerBeanMapper mapper = new DozerBeanMapper();
 
     public ProductUseCaseImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -40,7 +37,7 @@ public class ProductUseCaseImpl implements ProductUseCase {
     }
 
     private FullProductDto toFullBookDto(ProductDto productDto) {
-       return mapper.map(productDto, FullProductDto.class);
+        return new FullProductDto(productDto.getName(), productDto.getDescription(), productDto.getQuantity());
     }
 
 }
