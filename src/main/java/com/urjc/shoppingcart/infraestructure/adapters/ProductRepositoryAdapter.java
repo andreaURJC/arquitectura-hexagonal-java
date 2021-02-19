@@ -23,10 +23,10 @@ public class ProductRepositoryAdapter implements ProductRepository {
     @Override
     public FullProductDto save(FullProductDto fullProductDto) {
         ProductEntity productEntity = toEntity(fullProductDto);
-        Optional<ProductEntity> maybeExists = this.productJpaRepository.findProductEntityByName(productEntity.getName());
+        Optional<ProductEntity> existingProduct = this.productJpaRepository.findProductEntityByName(productEntity.getName());
 
-        if (maybeExists.isPresent()) {
-            ProductEntity product = maybeExists.get();
+        if (existingProduct.isPresent()) {
+            ProductEntity product = existingProduct.get();
             product.setQuantity(fullProductDto.getQuantity() + product.getQuantity());
             return toFullProductDto(this.productJpaRepository.save(product));
         } else {
