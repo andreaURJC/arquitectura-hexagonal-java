@@ -50,11 +50,11 @@ public class ShoppingCartController {
 
 
     private ShoppingCartResponseDto toShoppingCartResponseDto(FullShoppingCartDto fullShoppingCartDto) {
-        return new ShoppingCartResponseDto(fullShoppingCartDto.getId(), fullShoppingCartDto.getStatus());
+        return new ShoppingCartResponseDto(fullShoppingCartDto.getId(), fullShoppingCartDto.getProducts(), fullShoppingCartDto.getStatus());
     }
 
     private void populateDatabase() {
-//        this.shoppingCartService.create();
-//        this.shoppingCartService.create();
+        this.shoppingCartService.create();
+        this.shoppingCartService.create();
     }
 }

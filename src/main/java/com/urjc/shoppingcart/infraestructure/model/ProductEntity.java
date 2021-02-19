@@ -14,8 +14,8 @@ public class ProductEntity {
     private String name;
     private String description;
     private Integer quantity;
-//    @ManyToMany(mappedBy = "products")
-//    private List<ShoppingCartEntity> shoppingCarts;
+    @ManyToMany(mappedBy = "products")
+    private List<ShoppingCartEntity> shoppingCarts;
 
     public ProductEntity(String name, String description, Integer quantity) {
         this.name = name;

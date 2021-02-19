@@ -24,7 +24,7 @@ public class ShoppingCartRepositoryAdapter implements ShoppingCartRepository {
 
     @Override
     public FullShoppingCartDto save() {
-        return toFullShoppingCartDto(this.shoppingCartJpaRepository.save(new ShoppingCartEntity(CartStatus.CREATED)));
+        return toFullShoppingCartDto(this.shoppingCartJpaRepository.save(new ShoppingCartEntity(new ArrayList<>(), CartStatus.CREATED)));
     }
 
     @Override
@@ -55,11 +55,11 @@ public class ShoppingCartRepositoryAdapter implements ShoppingCartRepository {
     }
 
     private ShoppingCartEntity toEntity(FullShoppingCartDto fullShoppingCartDto) {
-        return new ShoppingCartEntity(fullShoppingCartDto.getId(), fullShoppingCartDto.getStatus());
+        return new ShoppingCartEntity(fullShoppingCartDto.getId(), toEntities(fullShoppingCartDto.getProducts()), fullShoppingCartDto.getStatus());
     }
 
     private FullShoppingCartDto toFullShoppingCartDto(ShoppingCartEntity shoppingCartEntity) {
-        return new FullShoppingCartDto(shoppingCartEntity.getProductId(), shoppingCartEntity.getStatus());
+        return new FullShoppingCartDto(shoppingCartEntity.getProductId(), toProducts(shoppingCartEntity.getProducts()), shoppingCartEntity.getStatus());
     }
 
     private List<Product> toProducts(List<ProductEntity> entities) {

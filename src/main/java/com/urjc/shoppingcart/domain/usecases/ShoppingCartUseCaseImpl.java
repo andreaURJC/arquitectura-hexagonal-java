@@ -51,8 +51,4 @@ public class ShoppingCartUseCaseImpl implements ShoppingCartUseCase {
         return null;
     }
 
-
-    FullShoppingCartDto toFullShoppingCartDto(ShoppingCartDto shoppingCartDto) {
-        return new FullShoppingCartDto( shoppingCartDto.getStatus());
-    }
 }

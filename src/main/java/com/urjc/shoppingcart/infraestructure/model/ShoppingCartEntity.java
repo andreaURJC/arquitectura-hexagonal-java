@@ -11,17 +11,20 @@ public class ShoppingCartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
+    private List<ProductEntity> products;
     private CartStatus status;
 
-    public ShoppingCartEntity( CartStatus status) {
-
+    public ShoppingCartEntity(List<ProductEntity> products, CartStatus status) {
+        this.products = products;
         this.status = status;
     }
 
-    public ShoppingCartEntity(Integer productId, CartStatus status) {
+    public ShoppingCartEntity(Integer productId, List<ProductEntity> products, CartStatus status) {
         if (productId != null) {
             this.productId = productId;
         }
+        this.products = products;
         this.status = status;
     }
 
@@ -34,6 +37,14 @@ public class ShoppingCartEntity {
 
     public void setProductId(Integer id) {
         this.productId = id;
+    }
+
+    public List<ProductEntity> getProducts() {
+        return new ArrayList<>();
+    }
+
+    public void setProducts(List<ProductEntity> products) {
+        this.products = products;
     }
 
     public CartStatus getStatus() {

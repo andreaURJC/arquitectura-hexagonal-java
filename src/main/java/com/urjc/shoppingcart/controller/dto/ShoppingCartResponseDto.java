@@ -7,14 +7,25 @@ import java.util.List;
 
 public class ShoppingCartResponseDto {
     int id;
+    List<Product> products;
     CartStatus status;
 
-    public ShoppingCartResponseDto(Integer id, CartStatus status) {
+    public ShoppingCartResponseDto(Integer id,List<Product> products, CartStatus status) {
         this.id = id;
+        this.products = products;
         this.status = status;
     }
 
     public ShoppingCartResponseDto() {
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 
     public CartStatus getStatus() {
