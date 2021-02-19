@@ -42,7 +42,14 @@ public class ProductUseCaseImpl implements ProductUseCase {
     @Override
     public Optional<FullProductDto> delete(int id) {
         Optional<FullProductDto> product = this.productRepository.findById(id);
-        product.ifPresent(entity -> this.productRepository.delete(product.get()));
+        product.ifPresent((entity) -> {
+            if (entity.getQuantity() == 1) {
+                this.productRepository.delete(entity);
+            } else {
+                entity.setQuantity(entity.getQuantity() - 1);
+                this.productRepository.save(entity);
+            }
+        });
         return product;
     }
 
