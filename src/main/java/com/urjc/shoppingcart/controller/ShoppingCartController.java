@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
-
 @RestController
 @RequestMapping("/shoppingcarts")
 public class ShoppingCartController {
@@ -17,11 +15,6 @@ public class ShoppingCartController {
 
     public ShoppingCartController(ShoppingCartService shoppingCartService) {
         this.shoppingCartService = shoppingCartService;
-    }
-
-    @PostConstruct
-    public void init() {
-        populateDatabase();
     }
 
     @PostMapping()
@@ -62,10 +55,5 @@ public class ShoppingCartController {
 
     private ShoppingCartResponseDto toShoppingCartResponseDto(FullShoppingCartDto fullShoppingCartDto) {
         return new ShoppingCartResponseDto(fullShoppingCartDto.getId(), fullShoppingCartDto.getProducts(), fullShoppingCartDto.getStatus());
-    }
-
-    private void populateDatabase() {
-        this.shoppingCartService.create();
-        this.shoppingCartService.create();
     }
 }
