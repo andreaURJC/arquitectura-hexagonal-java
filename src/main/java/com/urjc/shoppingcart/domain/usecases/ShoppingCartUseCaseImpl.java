@@ -71,9 +71,9 @@ public class ShoppingCartUseCaseImpl implements ShoppingCartUseCase {
         Optional<FullShoppingCartDto> shoppingCart = this.shoppingCartRepository.findById(shoppingCartId);
 
         fullProductDto.ifPresent(product -> shoppingCart.ifPresent(cart -> {
-            cart.getProducts().add(toProduct(product));
-            Product productToDelete = cart.getProducts().stream().filter(product1 -> product.getName().equals(product.getName())).findFirst().get();
-            cart.getProducts().remove(cart.getProducts().indexOf(productToDelete));
+            Optional<Product> productToDelete = cart.getProducts().stream().filter(product1 -> product.getName().equals(product.getName())).findFirst();
+            productToDelete.ifPresent(deleteProduct -> cart.getProducts().remove(deleteProduct));
+            this.shoppingCartRepository.save(cart);
         }));
 
         return shoppingCart;
