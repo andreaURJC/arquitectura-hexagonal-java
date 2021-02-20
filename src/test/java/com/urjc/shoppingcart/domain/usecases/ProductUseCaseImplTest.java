@@ -31,33 +31,32 @@ class ProductUseCaseImplTest {
     }
 
     @Test
-    void givenExistingProductDto_whenSaved_thenReturnFullSavedProductWithSumOfQuantities() {
-        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", 1);
-        ProductDto newProductDto = new ProductDto("name", "description", 1);
-        int finalQuantity = fullProductDto.getQuantity() + newProductDto.getQuantity();
-        FullProductDto productEntitySaved = new FullProductDto(1, "name", "description", finalQuantity);
+    void givenExistingProductDto_whenSaved_thenReturnFullSavedProductWithUpdatedDescription() {
+        FullProductDto foundProduct = new FullProductDto(1, "name", "description");
+        ProductDto newProductDto = new ProductDto("name", "description nueva");
+        FullProductDto productEntitySaved = new FullProductDto(1, "name", newProductDto.getDescription());
 
-        when(this.productRepository.findProductEntityByName(any())).thenReturn(Optional.of(fullProductDto));
+        when(this.productRepository.findProductEntityByName(any())).thenReturn(Optional.of(foundProduct));
         when(this.productRepository.save(any())).thenReturn(productEntitySaved);
 
         FullProductDto response = this.productUseCase.save(newProductDto);
-        Assertions.assertEquals(response.getQuantity(), finalQuantity);
+        Assertions.assertEquals(response.getDescription(), foundProduct.getDescription());
     }
 
     @Test
     void givenNewProductDto_whenSaved_thenReturnFullSavedProductWithTheSameData() {
-        ProductDto newProductDto = new ProductDto("name", "description", 1);
-        FullProductDto productEntitySaved = new FullProductDto(1, "name", "description", 1);
+        ProductDto newProductDto = new ProductDto("name", "description");
+        FullProductDto productEntitySaved = new FullProductDto(1, "name", "description");
 
         when(this.productRepository.findProductEntityByName(any())).thenReturn(Optional.empty());
         when(this.productRepository.save(any())).thenReturn(productEntitySaved);
 
-        Assertions.assertEquals(this.productUseCase.save(newProductDto).getQuantity(), newProductDto.getQuantity());
+        Assertions.assertEquals(this.productUseCase.save(newProductDto).getName(), newProductDto.getName());
     }
 
     @Test
     void givenProductDto_whenDelete_thenReturnFullProduct() {
-        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", 1);
+        FullProductDto fullProductDto = new FullProductDto(1, "name", "description");
 
         Mockito.when(productRepository.findById(1)).thenReturn(Optional.of(fullProductDto));
         Mockito.when(productRepository.delete(any())).thenReturn(fullProductDto);
@@ -68,15 +67,10 @@ class ProductUseCaseImplTest {
     }
 
     @Test
-    void givenMultipleQuantityProductDto_whenDelete_thenReturnFullProductQuantityMinusOne() {
-        int quantity = 2;
-        FullProductDto fullProductDto = new FullProductDto(1, "name", "description", quantity);
+    void givenNotExistingProductDto_whenDelete_thenReturnNoProduct() {
+        Mockito.when(productRepository.findById(1)).thenReturn(Optional.empty());
+        Optional<FullProductDto> fullProductDtoDeleted = productUseCase.delete(1);
 
-        Mockito.when(productRepository.findById(1)).thenReturn(Optional.of(fullProductDto));
-        Mockito.when(productRepository.save(any())).thenReturn(fullProductDto);
-        FullProductDto fullProductDtoDeleted = productUseCase.delete(1).get();
-
-        Assertions.assertEquals(fullProductDto.getName(), fullProductDtoDeleted.getName());
-        Assertions.assertEquals(quantity - 1, fullProductDtoDeleted.getQuantity());
+        Assertions.assertEquals(fullProductDtoDeleted, Optional.empty());
     }
 }

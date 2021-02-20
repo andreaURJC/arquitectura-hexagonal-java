@@ -60,9 +60,9 @@ public class ProductController {
     }
 
     public void populateDatabase() {
-        ProductRequestDto productRequestDto1 = new ProductRequestDto("Alexa", "Alexa es el servicio de voz ubicado en la nube de Amazon disponible en los dispositivos de Amazon",1);
-        ProductRequestDto productRequestDto2 = new ProductRequestDto("Conga", "Conga el Robot Aspirador que Friega y Diseño Español. 2 años de garantía",1);
-        ProductRequestDto productRequestDto3 = new ProductRequestDto("Chromecast", "Google Chrome es un navegador web de código cerrado desarrollado por Google, aunque derivado de proyectos de código abierto.",2);
+        ProductRequestDto productRequestDto1 = new ProductRequestDto("Alexa", "Alexa es el servicio de voz ubicado en la nube de Amazon disponible en los dispositivos de Amazon");
+        ProductRequestDto productRequestDto2 = new ProductRequestDto("Conga", "Conga el Robot Aspirador que Friega y Diseño Español. 2 años de garantía");
+        ProductRequestDto productRequestDto3 = new ProductRequestDto("Chromecast", "Google Chrome es un navegador web de código cerrado desarrollado por Google, aunque derivado de proyectos de código abierto.");
 
         this.productService.createProduct(productRequestDto1);
         this.productService.createProduct(productRequestDto2);

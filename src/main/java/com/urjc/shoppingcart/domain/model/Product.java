@@ -6,13 +6,11 @@ public class Product {
     int id;
     private String name;
     private String description;
-    private Integer quantity;
 
-    public Product(int id, String name, String description, int quantity) {
+    public Product(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
     public int getId() {
@@ -39,17 +37,9 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
     public Product() {}
 
     public ProductEntity toEntity() {
-        return new ProductEntity(this.getId(), this.getName(), this.getDescription(), this.getQuantity());
+        return new ProductEntity(this.getId(), this.getName(), this.getDescription());
     }
 }

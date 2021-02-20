@@ -80,7 +80,7 @@ public class ShoppingCartUseCaseImpl implements ShoppingCartUseCase {
     }
 
     private Product toProduct(FullProductDto fullProductDto) {
-        return new Product(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription(), fullProductDto.getQuantity());
+        return new Product(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription());
     }
 
 }
