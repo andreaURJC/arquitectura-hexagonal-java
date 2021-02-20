@@ -3,12 +3,10 @@ package com.urjc.shoppingcart.domain.dto;
 public class ProductDto {
     private String name;
     private String description;
-    private Integer quantity;
 
-    public ProductDto(String name, String description, int quantity) {
+    public ProductDto(String name, String description) {
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
     public ProductDto() {}
@@ -27,13 +25,5 @@ public class ProductDto {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 }

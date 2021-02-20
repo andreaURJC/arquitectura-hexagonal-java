@@ -22,7 +22,7 @@ public class ProductUseCaseImpl implements ProductUseCase {
 
         if (existingProduct.isPresent()) {
             FullProductDto product = existingProduct.get();
-            product.setQuantity(fullProductDto.getQuantity() + product.getQuantity());
+            product.setDescription(fullProductDto.getDescription());
             return this.productRepository.save(product);
         } else {
             return this.productRepository.save(fullProductDto);
@@ -42,19 +42,12 @@ public class ProductUseCaseImpl implements ProductUseCase {
     @Override
     public Optional<FullProductDto> delete(int id) {
         Optional<FullProductDto> product = this.productRepository.findById(id);
-        product.ifPresent((entity) -> {
-            if (entity.getQuantity() == 1) {
-                this.productRepository.delete(entity);
-            } else {
-                entity.setQuantity(entity.getQuantity() - 1);
-                this.productRepository.save(entity);
-            }
-        });
+        product.ifPresent(this.productRepository::delete);
         return product;
     }
 
     private FullProductDto toFullBookDto(ProductDto productDto) {
-        return new FullProductDto(productDto.getName(), productDto.getDescription(), productDto.getQuantity());
+        return new FullProductDto(productDto.getName(), productDto.getDescription());
     }
 
 }

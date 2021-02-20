@@ -1,36 +1,35 @@
 package com.urjc.shoppingcart.infraestructure.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.urjc.shoppingcart.domain.dto.FullProductDto;
+import com.urjc.shoppingcart.domain.model.Product;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String description;
-    private Integer quantity;
+    @ManyToMany(mappedBy = "products")
+    private List<ShoppingCartEntity> shoppingCarts;
 
-    public ProductEntity(String name, String description, Integer quantity) {
+    public ProductEntity(String name, String description) {
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
-    public ProductEntity(Integer id, String name, String description, Integer quantity) {
+    public ProductEntity(Integer id, String name, String description) {
         if (id != null) {
             this.id = id;
         }
         this.name = name;
         this.description = description;
-        this.quantity = quantity;
     }
 
-    public ProductEntity() {
-    }
+    public ProductEntity() {}
 
     public int getId() {
         return id;
@@ -56,11 +55,8 @@ public class ProductEntity {
         this.description = description;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public Product toProduct() {
+        return new Product(this.getId(), this.getName(), this.getDescription());
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
 }

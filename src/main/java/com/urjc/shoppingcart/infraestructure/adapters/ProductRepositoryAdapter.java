@@ -49,11 +49,11 @@ public class ProductRepositoryAdapter implements ProductRepository {
     }
 
     private ProductEntity toEntity(FullProductDto fullProductDto) {
-        return new ProductEntity(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription(), fullProductDto.getQuantity());
+        return new ProductEntity(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription());
     }
 
 
     private FullProductDto toFullProductDto(ProductEntity entity) {
-        return new FullProductDto(entity.getId(), entity.getName(), entity.getDescription(), entity.getQuantity());
+        return new FullProductDto(entity.getId(), entity.getName(), entity.getDescription());
     }
 }
