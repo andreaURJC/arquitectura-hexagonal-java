@@ -19,8 +19,6 @@ import java.util.stream.Collectors;
 public class ProductController {
     private ProductService productService;
 
-    private DozerBeanMapper mapper = new DozerBeanMapper();
-
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -56,7 +54,7 @@ public class ProductController {
     }
 
     public ProductResponseDto toProductResponseDto(FullProductDto fullProductDto) {
-        return mapper.map(fullProductDto, ProductResponseDto.class);
+        return new ProductResponseDto(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription());
     }
 
     public void populateDatabase() {
