@@ -10,11 +10,11 @@ import java.util.List;
 public class ShoppingCartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int productId;
-    @ManyToMany(fetch = FetchType.EAGER)
+    private int id;
+    @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(name = "shopping_cart_product",
-            joinColumns = {@JoinColumn(name = "shopping_cart_entity_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "product_entity_id", nullable = false, updatable = false)})
+            joinColumns = {@JoinColumn(name = "shopping_cart_entity_id")},
+            inverseJoinColumns = {@JoinColumn(name = "product_entity_id")})
     private List<ProductEntity> products;
     private CartStatus status;
 
@@ -23,9 +23,9 @@ public class ShoppingCartEntity {
         this.status = status;
     }
 
-    public ShoppingCartEntity(Integer productId, List<ProductEntity> products, CartStatus status) {
-        if (productId != null) {
-            this.productId = productId;
+    public ShoppingCartEntity(Integer id, List<ProductEntity> products, CartStatus status) {
+        if (id != null) {
+            this.id = id;
         }
         this.products = products;
         this.status = status;
@@ -34,16 +34,16 @@ public class ShoppingCartEntity {
     public ShoppingCartEntity() {
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setProductId(Integer id) {
-        this.productId = id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<ProductEntity> getProducts() {
-        return new ArrayList<>();
+        return products;
     }
 
     public void setProducts(List<ProductEntity> products) {

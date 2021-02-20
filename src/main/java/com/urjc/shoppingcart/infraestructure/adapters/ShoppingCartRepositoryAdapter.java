@@ -64,7 +64,7 @@ public class ShoppingCartRepositoryAdapter implements ShoppingCartRepository {
     }
 
     private FullShoppingCartDto toFullShoppingCartDto(ShoppingCartEntity shoppingCartEntity) {
-        return new FullShoppingCartDto(shoppingCartEntity.getProductId(), toProducts(shoppingCartEntity.getProducts()), shoppingCartEntity.getStatus());
+        return new FullShoppingCartDto(shoppingCartEntity.getId(), toProducts(shoppingCartEntity.getProducts()), shoppingCartEntity.getStatus());
     }
 
     private List<Product> toProducts(List<ProductEntity> entities) {

@@ -5,12 +5,10 @@ import com.urjc.shoppingcart.controller.exception.ProductNotFoundException;
 import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.dto.ProductRequestDto;
 import com.urjc.shoppingcart.service.ProductService;
-import org.dozer.DozerBeanMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,11 +19,6 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
-    }
-
-    @PostConstruct
-    public void init() {
-        populateDatabase();
     }
 
     @PostMapping()
@@ -55,15 +48,5 @@ public class ProductController {
 
     public ProductResponseDto toProductResponseDto(FullProductDto fullProductDto) {
         return new ProductResponseDto(fullProductDto.getId(), fullProductDto.getName(), fullProductDto.getDescription());
-    }
-
-    public void populateDatabase() {
-        ProductRequestDto productRequestDto1 = new ProductRequestDto("Alexa", "Alexa es el servicio de voz ubicado en la nube de Amazon disponible en los dispositivos de Amazon");
-        ProductRequestDto productRequestDto2 = new ProductRequestDto("Conga", "Conga el Robot Aspirador que Friega y Diseño Español. 2 años de garantía");
-        ProductRequestDto productRequestDto3 = new ProductRequestDto("Chromecast", "Google Chrome es un navegador web de código cerrado desarrollado por Google, aunque derivado de proyectos de código abierto.");
-
-        this.productService.createProduct(productRequestDto1);
-        this.productService.createProduct(productRequestDto2);
-        this.productService.createProduct(productRequestDto3);
     }
 }
