@@ -42,9 +42,9 @@ public class ShoppingCartController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ShoppingCartResponseDto> finish(@PathVariable int id) throws ShoppingCartNotFound, InvalidOperationException {
+        FullShoppingCartDto shoppingCart = this.shoppingCartService.finish(id).orElseThrow(ShoppingCartNotFound::new);
         boolean isValid = this.validatorService.validateShoppingCart(new ValidateShoppingCart(id));
         if (isValid) {
-        FullShoppingCartDto shoppingCart = this.shoppingCartService.finish(id).orElseThrow(ShoppingCartNotFound::new);
         return new ResponseEntity<>(toShoppingCartResponseDto(shoppingCart), HttpStatus.OK);
         } else {
             throw new InvalidOperationException();
