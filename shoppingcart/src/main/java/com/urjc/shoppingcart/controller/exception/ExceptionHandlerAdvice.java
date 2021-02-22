@@ -13,4 +13,11 @@ public class ExceptionHandlerAdvice {
                 .status(HttpStatus.NOT_FOUND)
                 .body(e.getMessage());
     }
+
+    @ExceptionHandler({InvalidOperationException.class})
+    public ResponseEntity invalidOperationExceptionHandler(InvalidOperationException e) {
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("Cannot finish this shopping cart, there are some product that are not available.");
+    }
 }

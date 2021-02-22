@@ -1,6 +1,5 @@
 package com.urjc.shoppingcart.infraestructure.model;
 
-import com.urjc.shoppingcart.domain.dto.FullProductDto;
 import com.urjc.shoppingcart.domain.model.Product;
 
 import javax.persistence.*;

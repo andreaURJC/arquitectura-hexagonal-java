@@ -1,9 +1,12 @@
 package com.urjc.shoppingcart.controller;
 
 import com.urjc.shoppingcart.controller.dto.ShoppingCartResponseDto;
+import com.urjc.shoppingcart.controller.exception.InvalidOperationException;
 import com.urjc.shoppingcart.controller.exception.ShoppingCartNotFound;
 import com.urjc.shoppingcart.domain.dto.FullShoppingCartDto;
 import com.urjc.shoppingcart.service.ShoppingCartService;
+import com.urjc.shoppingcart.service.ValidateShoppingCart;
+import com.urjc.shoppingcart.service.ValidatorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shoppingcarts")
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
+    private final ValidatorService validatorService;
 
-    public ShoppingCartController(ShoppingCartService shoppingCartService) {
+    public ShoppingCartController(ShoppingCartService shoppingCartService, ValidatorService validatorService) {
         this.shoppingCartService = shoppingCartService;
+        this.validatorService = validatorService;
     }
 
     @PostMapping()
@@ -36,9 +41,14 @@ public class ShoppingCartController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ShoppingCartResponseDto> finish(@PathVariable int id) throws ShoppingCartNotFound {
+    public ResponseEntity<ShoppingCartResponseDto> finish(@PathVariable int id) throws ShoppingCartNotFound, InvalidOperationException {
+        boolean isValid = this.validatorService.validateShoppingCart(new ValidateShoppingCart(id));
+        if (isValid) {
         FullShoppingCartDto shoppingCart = this.shoppingCartService.finish(id).orElseThrow(ShoppingCartNotFound::new);
         return new ResponseEntity<>(toShoppingCartResponseDto(shoppingCart), HttpStatus.OK);
+        } else {
+            throw new InvalidOperationException();
+        }
     }
 
     @PostMapping("/{shoppingCartId}/product/{productId}/quantity/{quantity}")

@@ -1,7 +1,5 @@
 package com.urjc.shoppingcart.domain.dto;
 
-import com.urjc.shoppingcart.infraestructure.model.ProductEntity;
-
 public class FullProductDto {
     private int id;
     private String name;
